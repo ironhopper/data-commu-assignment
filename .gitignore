@@ -80,3 +80,5 @@ server.js
 .idea
 
 package-lock.json
+
+.DS_Store
