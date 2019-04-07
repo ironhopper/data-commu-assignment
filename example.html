@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <!-- 각 element의 id 값으로 css를 설정해줍니다. -->
+    <style>
+        #chat_log {
+            width: 90%;
+            height: 350px;
+        }
+
+        #chat {
+            width: 90%;
+            height: 10%;
+        }
+
+        #id_box {
+            width: 25%;
+            height: 100%;
+        }
+
+        #msg {
+            width: 60%;
+            height: 100%;
+        }
+
+        #enter {
+            width: 10%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<!--채팅 메시지가 기록될 textarea 작성합니다. readonly로 읽기 전용으로 생성합니다.-->
+<textarea id="chat_log" readonly></textarea>
+
+<!--채팅 기본 UI를 위한 div와 input 영역을 만듬니다.-->
+<div id="chat">
+    <input id="id_box" readonly>
+    <input id="msg">
+    <!--버튼을 눌렀을 때 chat 함수를 작동시킵니다.-->
+    <button id="enter" onclick="chat()">chat</button>
+</div>
+</body>
+<script>
+
+    // prompt 함수를 이용하여 아이디를 입력받습니다.
+    var input = prompt("아이디를 입력하세요.");
+    document.getElementById('id_box').value = input;
+
+    var chat_log = document.getElementById('chat_log');
+    var msg = document.getElementById('msg');
+
+    // input인 msg 값이 비어있지 않으면, chat_log에 msg 값을 출력해주고, 나의 msg 값을 비워줍니다.
+    var chat = function () {
+        if (msg.value !== "") {
+            chat_log.append(input + ": " + msg.value + "\n");
+            msg.value = "";
+        }
+    };
+
+    // 키코드 13 (enter) 값이 들어오면 chat 함수를 발생시킵니다.
+    window.onkeydown = function () {
+        if (window.event.keyCode === 13)
+            chat();
+    };
+
+
+</script>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>ASSIGNMENT1 ROOM</title>
+    <script src="app.js"></script>
+</head>
+
+<body>
+<textarea id="txtForm" style="width:100%; height:300px;" readonly></textarea>
+
+<br>
+<input type="text" id="txtID" readonly onclick="nicknameCreate()" value="닉네임을 생성하세요">
+<input type="text" id="addInput" autocomplete="off">
+<input type="button" onclick="insertTextClick()" value="Enter" >
+
+<br>
+<br>
+<li>포트는 3000번 으로 설정하였습니다. </li>
+<br>
+<li>왼쪽의 파일트리에서 package-lock.json 에 socket.io 모듈 확인하였습니다.</li>
+<br>
+<li>클라우드 환경에서 내부포트로의 접속이 불가하여 외부포트로 접속합니다.</li>
+<!--<img src='/screenshot.png'>-->
+<img src='https://proxy.goorm.io//service/5ca9a5eeac498e00bc7ae008_dducjjitkgpfoggifzt.run.goorm.io/9080//file/load/screenshot.png?path=d29ya3NwYWNlJTJGZGF0YWNvbW11LUFzc2lnbm1lbnQlMkZwdWJsaWMlMkZzY3JlZW5zaG90LnBuZw==&docker_id=dducjjitkgpfoggifzt&secure_session_id=6TkKmkkEzs90M1dX_JnCE4HjqeqqltdW'>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script>
+
+    const socket = io.connect(`/chat`);
+
+    let nickname = null;
+    const txtid = document.getElementById('txtID');
+
+    let addTxt = document.getElementById('addInput'); // 추가 입력 할 텍스트
+    addTxt.focus();
+
+    function nicknameCreate() {
+        nickname = prompt("원하시는 닉네임을 입력하세요");
+        txtid.value = nickname;
+        addTxt.focus();
+    }
+
+    function insertTextClick(){
+
+
+        if(nickname == null) nickname = '닉네임을 설정해주세요';
+
+        let transportData = '';
+
+        const txtArea = document.getElementById('txtForm');
+        let msg = {
+            nickname: txtArea.value  + nickname + " : " + addTxt.value + "\n"
+        };
+
+        socket.emit(`chat message`, msg);
+        // console.log(nickname + " : " + addTxt.value + "\n")
+
+        addTxt.value = "";
+        txtArea.focus();
+
+        addTxt.focus();
+
+        socket.on(`chat message`, data => {
+
+            transportData = data.nickname;
+            txtArea.value = transportData;
+
+            console.log(msg);
+        });
+    }
+
+    window.onkeydown = function () {
+        if(window.event.keyCode === 13){
+            insertTextClick()
+        }
+    }
+
+
+
+</script>
+
+<!--<script src=”/socket.io/socket.io.js”></script>-->
+</body>
+</html>
