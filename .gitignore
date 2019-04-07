@@ -76,3 +76,7 @@ storage.rules
 index_old.html
 index2.html
 server.js
+
+.idea
+
+package-lock.json
