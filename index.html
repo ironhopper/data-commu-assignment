@@ -29,13 +29,6 @@
 
 
 
-
-
- 
-
-
- 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <script>
 
@@ -53,16 +46,19 @@
         addTxt.focus();
     }
 
+
+
+
+
+
     function insertTextClick(){
-
-
-        if(nickname == null) nickname = '닉네임을 설정해주세요';
-
+        let txtArea = document.getElementById('txtForm');
+        let txtAreaData = '';
         let transportData = '';
 
-        const txtArea = document.getElementById('txtForm');
+        if(nickname == null) nickname = '닉네임을 설정해주세요';
         let msg = {
-            nickname: txtArea.value  + nickname + " : " + addTxt.value + "\n"
+            nickname: nickname + " : " + addTxt.value + "\n"
         };
 
         socket.emit(`chat message`, msg);
@@ -73,18 +69,26 @@
 
         addTxt.focus();
 
+        txtAreaData = txtArea.value;
+
         socket.on(`chat message`, data => {
 
             transportData = data.nickname;
-            txtArea.value = transportData;
-
             console.log(msg);
+            txtAreaData += transportData;
+
+            txtArea.value = txtAreaData;
+
         });
     }
 
+
+
+
     window.onkeydown = function () {
         if(window.event.keyCode === 13){
-            insertTextClick()
+            insertTextClick();
+
         }
     }
 
